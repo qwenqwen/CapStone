@@ -234,10 +234,8 @@ def NYT_easy_abstract_df_complete():
     df_NYT_easy_complete = df_NYT_easy_complete_cleaned.copy()
     df_NYT_easy_complete['Tokens'] = df_NYT_easy_complete.apply(lambda x: my_tokenizer(x))
     # save the finl product
-    with open('../data/df_NYT_easy_complete.pickle', 'w') as f:
+    with open('../data/df_NYT_easy_with_tokens_wb.pickle', 'wb') as f:
         cPickle.dump(df_NYT_easy_complete, f)
-    # also save as csv, since I put all .pickle file in my repo's ignore list
-    df_NYT_easy_complete.to_csv('../data/df_NYT_easy_with_tokens.csv')
 
 
 
