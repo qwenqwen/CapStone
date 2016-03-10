@@ -26,10 +26,12 @@ def dataset_split():
     df_with_time = df[df['Time']>0]
     X_train, X_test, y_train, y_test = train_test_split(np.array(df_with_time.iloc[:, 8:]), \
         df_with_time['Time'].values, test_size=0.2, random_state=100)
-
+    return X_train, X_test, y_train, y_test
 
 
 if __name__ == '__main__':
     # check if the data frame with tfidf has already been created, if not, create it
     if not os.path.isfile('../data/df_with_features.pkl'):
         preprocessing()
+    # split the data set
+    X_train, X_test, y_train, y_test = dataset_split()
