@@ -45,10 +45,11 @@
                 <div>
                   The original link: <a href={{link}}>{{link}}</a>
                 </div>
-                <h2>Estimated cooking time: <font color="green"><b>{{time}}</b></font> minutes<br/></h2>
+                <h2>Original cooking time: <font color="light blue"><b>{{ctime}}</b></font> minutes<br/></h2>
+                <h2>Estimated cooking time: <font color="light green"><b>{{etime}}</b></font> minutes<br/></h2>
                 <h2><b>Ingradients:</b>
                   {% for ing in ingreds%}
-                    {{ ing }}
+                    |{{ ing }}|
                   {% endfor %}
                 </h2>
                 <h2><b>Cooking Procedures:</b>

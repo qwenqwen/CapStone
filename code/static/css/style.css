@@ -103,10 +103,10 @@ a {
 	color: #1abc9c;
 }
 a:link {
-    color: green;
+    color: yellow;
 }
 a:visited {
-    color: yellow;
+    color: orange;
 }
 a:hover {
     color: hotpink;

@@ -3,3 +3,4 @@
 !df_NYT_easy_with_tokens_wb.pickle
 *.pkl
 *.DS_Store
+*.ipynb

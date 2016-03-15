@@ -1,7 +1,15 @@
 import pandas as pd
 import cPickle as pickle
 from flask import Flask, request, render_template
+import random
 app = Flask(__name__)
+
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
 
 # home page
 @app.route('/')
@@ -12,14 +20,28 @@ def index():
 # My model prediction app
 @app.route('/printout', methods=['GET', 'POST'] )
 def printout():
+    with open('../data/df_final.pkl', 'rb') as f:
+        df = pickle.load(f)
     entered_time = str(request.form['time_limit'])
-    recipe_name = 'ASDFGHJKL'
-    ori_link = 'https://github.com/qwenqwen/CapStone'
-    cooking_time = 30
-    ingredients = ['aaa', 'bbb']
-    procedures = 'asdfqwer'
+    if not is_number(entered_time):
+        recipe_name = 'Not a number!'
+        ori_link = ''
+        cooking_time = None
+        ingredients = []
+        procedures = ''
+    elif float(entered_time) < 10:
+        pass
+    else:
+        choices = list(df[df['estimated_time'] <= 20].index)
+        pick = df.iloc[random.choice(choices),:]
+        recipe_name = pick['Name']
+        ori_link = pick['URL']
+        cooking_time = pick['Time']
+        ingredients = pick['Ingredients']
+        procedures = pick['steps']
+        estimate = pick['estimated_time']
     return render_template("printout.html", name = recipe_name, link = ori_link, \
-        time = cooking_time, ingreds = ingredients, proc = procedures)
+        ctime = cooking_time, etime = estimate, ingreds = ingredients, proc = procedures)
     '''with open('data/vectorizer.pkl') as f:
         vectorizer = pickle.load(f)
     with open('data/model.pkl') as f:

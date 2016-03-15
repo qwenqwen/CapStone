@@ -1,5 +1,5 @@
 import cPickle
-from sklearn.cross_validation import train_test_split
+from sklearn.cross_validation import train_test_split, cross_val_score
 from sklearn.grid_search import GridSearchCV
 
 def preprocessing():
@@ -20,15 +20,46 @@ def preprocessing():
     with open('../data/df_with_features.pkl', 'wb') as f:
         cPickle.dump(df_with_features, f)
 
-def dataset_split(testsize, randomstate):
+def model_select():
+    # print out cross validation scores of different models
+    # and return the fit best model (random forest model)
     with open('../data/df_with_features.pkl', 'rb') as f:
         df = cPickle.load(f)
     # get the rows that can be used for training
     # the cooking should not be more than 2 hours
     df_with_time = df[(df['Time']>0) & (df['Time'] <= 120)]
-    X_train, X_test, y_train, y_test = train_test_split(np.array(df_with_time.iloc[:, 8:]), \
-        df_with_time['Time'].values, test_size=testsize, random_state=randomstate)
-    return X_train, X_test, y_train, y_test
+    X = np.array(df_with_time.iloc[:, 8:])
+    y = df_with_time['Time'].values
+    model_linear = LinearRegression(fit_intercept=True, normalize=True, copy_X=True, n_jobs=1)
+    print cross_val_score(model_linear, X, y, scoring='r2', cv=10)
+    model_abr = AdaBoostRegressor(base_estimator=None, n_estimators=50, learning_rate=1.0, loss='linear', random_state=None)
+    print cross_val_score(model_abr, X, y, scoring='r2', cv=10)
+    model_gbr = GradientBoostingRegressor(loss='ls', learning_rate=0.1, n_estimators=100, \
+                        subsample=1.0, min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, \
+                        max_depth=3, init=None, random_state=None, max_features=None, alpha=0.9, verbose=0, \
+                        max_leaf_nodes=None, warm_start=False, presort='auto')
+    print cross_val_score(model_gbr, X, y, scoring='r2', cv=10)
+    model_rfr = RandomForestRegressor(n_estimators=10, criterion='mse', max_depth=None, min_samples_split=2, \
+                min_samples_leaf=1, min_weight_fraction_leaf=0.0, max_features='auto', max_leaf_nodes=None, \
+                bootstrap=True, oob_score=False, n_jobs=1, random_state=None, verbose=0, warm_start=False)
+    print cross_val_score(model_rfr, X, y, scoring='r2',cv=10)
+    model_rfr.fit(X, y)
+    return df, model_rfr
+
+def time_estimate(df, best_model):
+    '''
+    Create a new data frame with estimated time
+    '''
+    X_all = np.array(df.iloc[:, 8:])
+    y_pred = model_rfr.predict(X_all)
+    # keep only the original columns when adding new column
+    df_pred = pd.concat([df.iloc[:,:8], pd.Series(y_pred)],axis=1)
+    # add column name
+    column_names = df_pred.columns.values
+    column_names[-1] = 'estimated_time'
+    df_pred.columns = column_names
+    with open('../data/df_final.pkl', 'wb') as f:
+        cPickle.dump(df_pred, f)
 
 def model_grid_search():
     # Ada Boosting
@@ -44,12 +75,12 @@ def model_grid_search():
     print("best parameters:", abr_gridsearch.best_params_)
     # ('best parameters:', {'n_estimators': 100, 'loss': 'linear', 'learning_rate': 0.01})
     best_abr_model = abr_gridsearch.best_estimator_
-v xxxv 
-
+    return None
 
 if __name__ == '__main__':
     # check if the data frame with tfidf has already been created, if not, create it
     if not os.path.isfile('../data/df_with_features.pkl'):
         preprocessing()
     # split the data set
-    X_train, X_test, y_train, y_test = dataset_split(0.2, 100)
+    df, model = model_select()
+    time_estimate(df, model)
