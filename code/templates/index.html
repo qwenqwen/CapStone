@@ -31,7 +31,7 @@
   <body>
 
     <div id="h">
-      <div class="logo">Galvanize - Cohort 11 - Qin Wen - CapStone Project</div>
+      <div class="logo">Galvanize - Qin Wen - CapStone Project</div>
       <div class="social hidden-xs">
         <a href="#"><i class="ion-social-twitter"></i></a>
         <a href="#"><i class="ion-social-instagram"></i></a>
@@ -42,7 +42,8 @@
             <div class="row">
               <div>
                 <h1>Welcome!
-                  <br/>Enter the time you have & prepare to enjoy a wonderful meal.
+                  <br/>Enter the time you have
+                  <br/>Prepare to enjoy a wonderful meal.
                   <br/>
                     <h3>
                       (The recipes are from <a href="http://cooking.nytimes.com/">NYT Cooking website</a>.)
@@ -50,11 +51,21 @@
                 </h1>
                 <div class="mtb">
                   <form role="form" action="/printout" method="post" enctype="plain">
-                    <input type="text" name="time_limit" class="input" size = 40 placeholder="Enter the time you have for cooking in minutes..." required>
+                    <input type="text" name="time_limit" class="input" size = 20 placeholder="Enter the time you have for cooking in minutes..." required>
                     <button class='btn btn-conf btn-green' type="submit">Search for my recipe</button>
+                    <h3>I <font color="green"><b>DO</b></font> want these ingredients:<br></h3>
+                    <input type="text" name="ing_yes" class="input" size = 20 placeholder="Enter ingredients">
+                    <h3>I <font color="red"><b>DO NOT</b></font> want these ingredients:<br></h3>
+                    <input type="text" name="ing_no" class="input" size = 20 placeholder="Enter ingredients">
                   </form>
-                </div><!--/mt-->
-                <h3>NOTE: the minimal cooking time is <font color="red"><b>10</b></font> minutes.</h3>
+                </div>
+                <h3>
+                    <font color="red">
+                        <b>WARNING</b>
+                    </font>
+                    : the minimal cooking time is
+                    <font color="red"><b>5</b></font>
+                    minutes.</h3>
               </div>
             </div><!--/row-->
           </div><!--/container-->

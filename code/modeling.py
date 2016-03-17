@@ -71,10 +71,37 @@ def model_grid_search():
                                  n_jobs=-1,
                                  verbose=True,
                                  scoring='mean_squared_error')
-    abr_gridsearch.fit(X_train, y_train)
+    abr_gridsearch.fit(X, y)
     print("best parameters:", abr_gridsearch.best_params_)
-    # ('best parameters:', {'n_estimators': 100, 'loss': 'linear', 'learning_rate': 0.01})
+    # ('best parameters:', {'n_estimators': 50, 'loss': 'exponential', 'learning_rate': 0.01})
     best_abr_model = abr_gridsearch.best_estimator_
+
+    # Gradient Boosting
+    gbr_grid = { 'loss': ['ls','lad','huber'],
+            'learning_rate': [0.01, 0.1, 1, 5],
+            'n_estimators': [50, 100, 500, 1000, 2000],
+            'max_features': ['auto', 'sqrt', 'log2']}
+    gbr_gridsearch = GridSearchCV(GradientBoostingRegressor(),
+                                 gbr_grid,
+                                 n_jobs=-1,
+                                 verbose=True,)
+    gbr_gridsearch.fit(X, y)
+    print("best parameters:", gbr_gridsearch.best_params_)
+    # ('best parameters:', {'max_features': 'sqrt', 'n_estimators': 1000, 'learning_rate': 0.01})
+    best_gbr_model = gbr_gridsearch.best_estimator_
+
+    # Random Forest
+    rfr_grid = { 'max_depth': [1,2,3],
+            'n_estimators': [50, 100, 500, 1000, 2000],
+            'max_features': ['auto', 'sqrt', 'log2']}
+    rfr_gridsearch = GridSearchCV(RandomForestRegressor(),
+                                 rfr_grid,
+                                 n_jobs=-1,
+                                 verbose=True)
+    rfr_gridsearch.fit(X, y)
+    print("best parameters:", rfr_gridsearch.best_params_)
+    # ('best parameters:', {'max_features': 'auto', 'n_estimators': 50, 'max_depth': 3})
+    best_rfr_model = rfr_gridsearch.best_estimator_
     return None
 
 if __name__ == '__main__':

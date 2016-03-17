@@ -1,7 +1,7 @@
 import pandas as pd
 import cPickle as pickle
-from flask import Flask, request, render_template
-import random
+from flask import Flask, request, render_template, redirect
+import string
 app = Flask(__name__)
 
 def is_number(s):
@@ -22,37 +22,44 @@ def index():
 def printout():
     with open('../data/df_final.pkl', 'rb') as f:
         df = pickle.load(f)
+    printable = set(string.printable)
+    error_found = 0
     entered_time = str(request.form['time_limit'])
+    entered_ing_yes = str(request.form['ing_yes'])
+    entered_ing_no = str(request.form['ing_no'])
+    # if the time entered is not a number
     if not is_number(entered_time):
-        recipe_name = 'Not a number!'
-        ori_link = ''
-        cooking_time = None
-        ingredients = []
-        procedures = ''
-    elif float(entered_time) < 10:
-        pass
+        error_found = 1
+        # error_message = 'Not a number!'
+        return render_template("printout.html", err = error_found, all_info = [])
+    # if the time entered is too short, a Google map is returned
+    elif float(entered_time) < 5:
+        return redirect('https://www.google.com/maps/preview#!q=restaurant')
     else:
-        choices = list(df[df['estimated_time'] <= 20].index)
-        pick = df.iloc[random.choice(choices),:]
-        recipe_name = pick['Name']
-        ori_link = pick['URL']
-        cooking_time = pick['Time']
-        ingredients = pick['Ingredients']
-        procedures = pick['steps']
-        estimate = pick['estimated_time']
-    return render_template("printout.html", name = recipe_name, link = ori_link, \
-        ctime = cooking_time, etime = estimate, ingreds = ingredients, proc = procedures)
-    '''with open('data/vectorizer.pkl') as f:
-        vectorizer = pickle.load(f)
-    with open('data/model.pkl') as f:
-        model = pickle.load(f)
-
-    text = str(request.form['user_input'])
-    df = pd.read_csv(text)
-    X = vectorizer.transform(df['body'])
-    y = df['section_name']
-    page = 'Accuracy: {0} <br><br>Predictions: {1}<br>'
-    return page.format(model.score(X, y), model.predict(X))'''
+        choices = list(df[df['estimated_time'] <= float(entered_time)].index)
+        # apply filters
+        if (entered_ing_yes and (not entered_ing_yes.isspace())):
+            entered_ing_yes_split = [i.strip().lower() for i in entered_ing_yes.split(',')]
+            # check if the ingredients are in the available recipes
+            choices_yes = [i for i in choices if all(j in df['Ingredients'][i] for j in entered_ing_yes_split)]
+            choices = choices_yes
+        if (entered_ing_no and (not entered_ing_no.isspace())):
+            entered_ing_no_split = [i.strip().lower() for i in entered_ing_no.split(',')]
+            # check if the ingredients are not in the available recipes
+            choices_no = [i for i in choices if not any(j not in df['Ingredients'][i] for j in entered_ing_no_split)]
+            choices = choices_no
+        if len(choices) == 0:
+            error_found = 2
+            return render_template("printout.html", err = error_found, all_info = [])
+        recipe_name = [filter(lambda x: x in printable, df['Name'][i]) for i in choices]
+        ori_link = [df['URL'][i] for i in choices]
+        cooking_time = [df['Time'][i] for i in choices]
+        estimate = [df['estimated_time'][i] for i in choices]
+        number_of_recipe = len(choices)
+    # return render_template("printout.html", name = recipe_name, link = ori_link, \
+    #     ctime = cooking_time, etime = estimate, err = error_found)
+    return render_template("printout.html", err = error_found, nor = number_of_recipe, \
+        all_info = list(zip(recipe_name,ori_link,cooking_time,estimate)))
 
 
 if __name__ == '__main__':

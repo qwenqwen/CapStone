@@ -103,7 +103,7 @@ a {
 	color: #1abc9c;
 }
 a:link {
-    color: yellow;
+    color: '#F17100';
 }
 a:visited {
     color: orange;
@@ -186,12 +186,12 @@ input {
 
 /* HEADER SECTION */
 #h {
-	background: url(../img/Turtle-food-creative-images_1366x768-1.jpg) no-repeat center top;
+	background: url(../img/iStock_000045024784_Large-1.jpg) no-repeat center top;
 	padding-top: 180px;
 	text-align:center;
 	background-attachment: relative;
 	background-position: center center;
-	min-height: 700px;
+	min-height: 100%;
 	width: 100%;
 	color: white;
 

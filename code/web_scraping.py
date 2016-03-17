@@ -206,7 +206,7 @@ def my_tokenizer(serie):
         if (len(i[0]) > 2) and ('V' in i[1]) and (i[0] not in sw)]
     nouns = list(set([PS.stem(item).encode('utf8') \
         for sublist in serie.Ingredients for item in sublist.split()]))
-    # the list of missing key words, found by manual examination
+    # the list of missing key words, found by manual inspection
     extra = ['heat', 'cool']
     return verbs + nouns + extra
 

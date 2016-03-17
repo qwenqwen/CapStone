@@ -31,7 +31,7 @@
   <body>
 
     <div id="h">
-      <div class="logo">Galvanize - Cohort 11 - Qin Wen - CapStone Project</div>
+      <div class="logo">Galvanize - Qin Wen - CapStone Project</div>
       <div class="social hidden-xs">
         <a href="#"><i class="ion-social-twitter"></i></a>
         <a href="#"><i class="ion-social-instagram"></i></a>
@@ -41,20 +41,35 @@
           <div class="container">
             <div class="row">
               <div>
-                <h1>{{name}}<br/></h1>
-                <div>
-                  The original link: <a href={{link}}>{{link}}</a>
-                </div>
-                <h2>Original cooking time: <font color="light blue"><b>{{ctime}}</b></font> minutes<br/></h2>
-                <h2>Estimated cooking time: <font color="light green"><b>{{etime}}</b></font> minutes<br/></h2>
-                <h2><b>Ingradients:</b>
-                  {% for ing in ingreds%}
-                    |{{ ing }}|
-                  {% endfor %}
-                </h2>
-                <h2><b>Cooking Procedures:</b>
-                  <div>{{ proc }}</div>
-                </h2>
+                <h1>
+                    {% if err == 1 %}
+                        <font color="red"><b>Please enter a number!</b></font><br/>
+                    {% elif err == 2 %}
+                        <font color="red"><b>No available recipe!</b></font><br/>
+                    {% else %}
+                        <br/>
+                        <h3>
+                        <table class="table table-condensed" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th><font color="LightBlue"><b>Given Time</b></font></th>
+                                    <th><font color="LightGreen"><b>Estimated Time</b></font></th>
+                                    <th><b>Name</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for one_recipe in all_info %}
+                                  <tr>
+                                      <td><font color="LightBlue">{{one_recipe[2]}}</font></td>
+                                      <td><font color="LightGreen">{{one_recipe[3]}}</font></td>
+                                      <td><a href={{one_recipe[1]}}>{{one_recipe[0]}}</a></td>
+                                  </tr>
+                                 {% endfor %}
+                            </tbody>
+                        </table>
+                        </h3>
+                    {% endif %}
+                </h1>
               </div>
               <a href="/">Return to homepage</a>
             </div><!--/row-->

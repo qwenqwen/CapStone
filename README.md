@@ -32,7 +32,7 @@ Now, I created the data frame with all useful information.
 
 ### Data Cleaning
 
-For the information of recipe time, I tried to get a value from the strings like "1 hour 15 minutes" or "15 to 30 minutes". Regular expressions were used to get the number before "hour/hours" and "minute/minutes". For the latter case, the first number (minimal time) was extracted. As the result, the "Time" column in the data frame contains the values in minutes.
+For the information of recipe cooking time, I tried to get a value from the strings like "1 hour 15 minutes" or "15 to 30 minutes". Regular expressions were used to get the number before "hour/hours" and "minute/minutes". For the latter case, the first number (minimal time) was extracted. As the result, the "Time" column in the data frame contains the values in minutes.
 For the information of ingredients, most of them are strings of ingredient names, but some of them are unstructured, which were long sentences. I had to extract ingredients from those sentences. The method is simple. First, a vocabulary set of all ingredients with short names (no more than 2 words) was created. Then, for each ingredient with long name (more than 2 words), it's checked to see if it contained any of the ingredients in the vocabulary. If there was any new ingredients, they were added to the ingredient list. As the result, the "Ingredients" column contains only ingredient names.
 All non-ascii characters and parentheses including the contents inside were removed from the ingredient strings and procedure strings.
 
