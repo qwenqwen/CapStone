@@ -47,7 +47,7 @@ def printout():
         if (entered_ing_no and (not entered_ing_no.isspace())):
             entered_ing_no_split = [i.strip().lower() for i in entered_ing_no.split(',')]
             # check if the ingredients are not in the available recipes
-            choices_no = [i for i in choices if not any(j not in df['Ingredients'][i] for j in entered_ing_no_split)]
+            choices_no = [i for i in choices if all(j not in df['Ingredients'][i] for j in entered_ing_no_split)]
             choices = choices_no
         if len(choices) == 0:
             error_found = 2
