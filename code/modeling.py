@@ -58,6 +58,20 @@ def time_estimate(df, best_model):
     column_names = df_pred.columns.values
     column_names[-1] = 'estimated_time'
     df_pred.columns = column_names
+
+    # I decided to add pictures to my web_app after the model was trained.
+    # Add the links to the images as the very last step
+    # to minimize the modification to the code and data
+    with open('../data/easy_titles.pickle', 'r') as f:
+        all_soup_unpickled = cPickle.load(f)
+    img_link = [i.contents[0]['data-large'].encode('utf8') \
+             for j in all_soup_unpickled for i in j.findAll(class_="image")]
+    # there are invalid links, which do not start with "http"
+    img_link_clean = [re.sub(r'^(?!http).*', '', i) for i in img_link]
+    df_pred = pd.concat([df_pred, pd.Series(img_link_clean)],axis=1)
+    column_names = df_pred.columns.values
+    column_names[-1] = 'img_link'
+    df_pred.columns = column_names
     with open('../data/df_final.pkl', 'wb') as f:
         cPickle.dump(df_pred, f)
 

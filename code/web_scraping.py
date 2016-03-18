@@ -235,7 +235,7 @@ def NYT_easy_abstract_df_complete():
     # add a new column "tokens"
     df_NYT_easy_complete = df_NYT_easy_complete_cleaned.copy()
     df_NYT_easy_complete['Tokens'] = df_NYT_easy_complete.apply(lambda x: my_tokenizer(x))
-    # save the finl product
+    # save the final product
     with open('../data/df_NYT_easy_with_tokens_wb.pickle', 'wb') as f:
         cPickle.dump(df_NYT_easy_complete, f)
 

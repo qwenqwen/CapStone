@@ -52,14 +52,16 @@
                         <table class="table table-condensed" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th><font color="LightBlue"><b>Given Time</b></font></th>
-                                    <th><font color="LightGreen"><b>Estimated Time</b></font></th>
-                                    <th><b>Name</b></th>
+                                    <th style="text-align:center"><b>Image</b></th>
+                                    <th style="text-align:center"><font color="LightBlue"><b>Given Time</b></font></th>
+                                    <th style="text-align:center"><font color="LightGreen"><b>Est. Time</b></font></th>
+                                    <th style="text-align:center"><b>Name</b></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for one_recipe in all_info %}
                                   <tr>
+                                      <td><img src="{{one_recipe[4]}}" alt="No Image" style="width:120px;height:80px;"></td>
                                       <td><font color="LightBlue">{{one_recipe[2]}}</font></td>
                                       <td><font color="LightGreen">{{one_recipe[3]}}</font></td>
                                       <td><a href={{one_recipe[1]}}>{{one_recipe[0]}}</a></td>

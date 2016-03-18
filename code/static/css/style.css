@@ -47,6 +47,13 @@ p {
 html,
 body {
 	height: 100%;
+	width: 100%;
+	background-image: url('../img/iStock_000045024784_Large-1.jpg');
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	center top;
+
 }
 
 .alignleft { float: left; }
@@ -186,8 +193,7 @@ input {
 
 /* HEADER SECTION */
 #h {
-	background: url(../img/iStock_000045024784_Large-1.jpg) no-repeat center top;
-	padding-top: 180px;
+	padding-top: 100px;
 	text-align:center;
 	background-attachment: relative;
 	background-position: center center;

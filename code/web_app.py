@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import cPickle as pickle
 from flask import Flask, request, render_template, redirect
 import string
@@ -51,15 +52,20 @@ def printout():
         if len(choices) == 0:
             error_found = 2
             return render_template("printout.html", err = error_found, all_info = [])
-        recipe_name = [filter(lambda x: x in printable, df['Name'][i]) for i in choices]
-        ori_link = [df['URL'][i] for i in choices]
-        cooking_time = [df['Time'][i] for i in choices]
+        # sort the list by estimated cooking Time
         estimate = [df['estimated_time'][i] for i in choices]
+        sorted_order = np.argsort(estimate)[::-1]
+        sorted_choices = list(np.array(choices)[sorted_order])
+        sorted_estimate = [df['estimated_time'][i] for i in sorted_choices]
+        recipe_name = [filter(lambda x: x in printable, df['Name'][i]) for i in sorted_choices]
+        ori_link = [df['URL'][i] for i in sorted_choices]
+        cooking_time = [df['Time'][i] for i in sorted_choices]
+        image = [df['img_link'][i] for i in sorted_choices]
         number_of_recipe = len(choices)
     # return render_template("printout.html", name = recipe_name, link = ori_link, \
     #     ctime = cooking_time, etime = estimate, err = error_found)
     return render_template("printout.html", err = error_found, nor = number_of_recipe, \
-        all_info = list(zip(recipe_name,ori_link,cooking_time,estimate)))
+        all_info = list(zip(recipe_name,ori_link,cooking_time,sorted_estimate,image)))
 
 
 if __name__ == '__main__':
