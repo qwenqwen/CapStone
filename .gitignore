@@ -1,8 +1,8 @@
 *.pickle
-
-!df_NYT_easy_with_tokens_wb.pickle
-!df_final.pkl
 *.pkl
 *.DS_Store
 *.ipynb
 code/templates/printout_old.html
+
+!df_NYT_easy_with_tokens_wb.pickle
+!df_final.pkl
