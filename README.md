@@ -1,4 +1,4 @@
-# CapStone - WhatToEat
+# CapStone - WhatToCook
 
 My CapStone Project about recipe time estimation
 
@@ -8,7 +8,7 @@ In this project, I built a recipe recommendation system that automatically extra
 
 ## Motivation
 
-The motivation was from my own experience. After I came to the bootcamp, the common time when I left Galvanize was after 6:30 PM. And I also need to take 45-minute bus ride to go back to the place I live. So I usually arrived at home at around 8 PM, hungry and exhausted. I didn’t want to spend too much time cooking, and there were not too many ingredients left in the refrigerator. So it was difficult to figure out something I like and won’t cost me too much time to prepare.
+The motivation was from my own experience. After I came to the bootcamp, the common time when I left was after 6:30 PM. And I also need to take 45-minute bus ride to go back to the place I live. So I usually arrived at home at around 8 PM, hungry and exhausted. I didn’t want to spend too much time cooking, and there were not too many ingredients left in the refrigerator. So it was difficult to figure out something I like and won’t cost me too much time to prepare.
 Most of the online recipes do not have a time estimate. People usually need do the estimation based on their experience. I am going to create a model to predict the time giving a recipe, and recommend one recipe that costs less time than the user-specified time limit.
 
 ## Procedure
