@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="static/img/favicon.ico">
 
-    <title>WhatToEat - Beta</title>
+    <title>WhatToCook</title>
 
     <!-- Bootstrap core CSS -->
     <link href="static/css/bootstrap.css" rel="stylesheet">
@@ -51,12 +51,24 @@
                 </h1>
                 <div class="mtb">
                   <form role="form" action="/printout" method="post" enctype="plain">
+                    <div>
                     <input type="text" name="time_limit" class="input" size = 20 placeholder="Enter the time you have for cooking in minutes..." required>
-                    <button class='btn btn-conf btn-green' type="submit">Search for my recipe</button>
+                    </div>
+                    <div>
+                    <br><button class='btn btn-conf btn-green' type="submit">Search for my recipe</button>
+                    </div>
+                    <div>
                     <h3>I <font color="green"><b>DO</b></font> want these ingredients:<br></h3>
+                    </div>
+                    <div>
                     <input type="text" name="ing_yes" class="input" size = 20 placeholder="Enter ingredients">
+                    </div>
+                    <div>
                     <h3>I <font color="red"><b>DO NOT</b></font> want these ingredients:<br></h3>
+                    </div>
+                    <div>
                     <input type="text" name="ing_no" class="input" size = 20 placeholder="Enter ingredients">
+                    </div>
                   </form>
                 </div>
                 <h3>

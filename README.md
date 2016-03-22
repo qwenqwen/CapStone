@@ -40,8 +40,29 @@ All non-ascii characters and parentheses including the contents inside were remo
 
 The features for this project are the key words. Part of them are the ingredients, and another part are the verbs from the procedure descriptions. Python package textblob was used to tokenize and tag the words from the descriptions. Verbs were extracted and stemmized. Ingredients were split into single word and stemmized. There were also some missing words that were not captured by textblob. All these were used to create the vocabulary of key words.
 Then the tf-idf values were calculated for all words in the vocabulary. And the values were added to the data frame as new features.
-As the result, now I have a data frame with all features that I can use for modeling.
+As the result, I had a data frame with all features that I can use for modeling.
 
 ### Modeling
 
+Since this is a regression problem, multiple regression models were tried and compared based on r-squared error using cross-validation.
+The recipes with given time can be used as training set. Since cross-validation was used in model selection, there is no need to split the training set. Additionally, only the recipes whose cooking time is less than 2 hours were used in the training set, since accuracy is more critical for simpler recipes.
+Among all five models (linear regression, ada boosting, gradient boosting, random forest, and support vector machine), gradient boosting and random forest had much higher r-squared error scores. Then, residual plots were used to visually determine the performance difference. And as the result, random forest was selected to perform the prediction. But grid search is needed in the future to finally determine if gradient boosting can outperform random forest.
+
 ### Prediction
+
+After the model was trained, the predictions were given to the complete data set.
+
+## Web_app
+
+As the final step, a convenient web-app was created for the users. From the app, users can enter the time limit, as well as the ingredient they do or do not want. The final results will be filtered accordingly.
+The results will be sorted by estimated cooking time in descending order, with the given time (if any) next to the estimated time. And, if a picture is provided, it will be displayed.
+If a recipe is selected, by clicking on the name, the users will be re-directed to the original recipe page for more details.
+And, an Easter egg is there. Try to ignore the warning at the bottom of the front page and enter some numbers that are less than 5 ...
+
+## Future work
+
+One thing I do want to implement but not is to use the quantity of the ingredients. For example, 1 pound of beef may cost different time than 5 pounds of beef. But the difficulty is that the ingredients use different units and its hard to interpret and convert the units.
+
+TextBlob is sometimes not good at labeling some verbs. Therefore, a better tagger is needed.
+
+Last but not least, a prettier app is always a better thing.

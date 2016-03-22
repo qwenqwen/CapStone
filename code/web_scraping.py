@@ -1,6 +1,7 @@
 import random, time, cPickle, string
 import os.path
 import pandas as pd
+import BeautifulSoup
 from nltk.stem.porter import PorterStemmer
 from nltk.corpus import stopwords
 from textblob import TextBlob

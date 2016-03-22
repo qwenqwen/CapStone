@@ -1,4 +1,5 @@
 import cPickle
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cross_validation import train_test_split, cross_val_score
 from sklearn.grid_search import GridSearchCV
 
